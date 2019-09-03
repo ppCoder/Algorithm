@@ -15,7 +15,7 @@ public class Main {
      * @desciption 将相邻的两个数字尽可能的以字典序排序，运算符位置不变
      * @return newS 排序好的字符串
      */
-    public String main(){
+    public static  String sortArith(){
         //Scan
         Scanner in = new Scanner(System.in);
         String s = in.nextLine();
@@ -23,28 +23,37 @@ public class Main {
         String str = in.nextLine();
         String[] strs = str.split(" ");
 
-        //judge
-        for (int i = 1; i < 2*n-1; i=i+2) {
-            if(strs[i].equals("*")||strs[i].equals("/")){
+        /*！！！逻辑出大问题，兄弟！！！！*/
+        for (int i = 1; i < 2*n-1; i += 2) {
+            if((strs[i].equals("/")&&((i+2)<(2*n-1))&&!strs[i+2].equals("/"))) i += 2;
+            else if(strs[i].equals("*")
+                    || ((strs[i].equals("+") || strs[i].equals("-")) && ((i+2 == 2*n-1) || ((i+2)<(2*n-1)) && !strs[i+2].equals("*") && !strs[i+2].equals("/")))){
                 if(Integer.parseInt(strs[i-1]) > Integer.parseInt(strs[i+1])){
                     String t = strs[i-1];
                     strs[i-1] = strs[i+1];
                     strs[i+1] = t;
+                    i = -1;
                 }
+                if(i!=-1&&strs[i].equals("*")&&((i+2)<(2*n-1))&&!strs[i+2].equals("*")) i += 2;
             }
-            else {
-                if(!strs[i+2].equals("*")&&!strs[i+2].equals("/")){
-                    if(Integer.parseInt(strs[i-1]) > Integer.parseInt(strs[i+1])){
-                        String t = strs[i-1];
-                        strs[i-1] = strs[i+1];
-                        strs[i+1] = t;
-                    }
+            else if((strs[i].equals("/"))&&((i+2)<(2*n-1))&&(strs[i+2].equals("/"))){
+                if(Integer.parseInt(strs[i+1]) > Integer.parseInt(strs[i+3])){
+                    String t = strs[i+1];
+                    strs[i+1] = strs[i+3];
+                    strs[i+3] = t;
+                    i = -1;
                 }
             }
         }
 
-        StringBuffer newS;
+        StringBuffer newS = new StringBuffer();
+        for (int i = 0; i < strs.length; i++) {
+            newS.append(strs[i]);
+        }
+        return new String(newS);
+    }
 
-        return str;
+    public static void main(String[] args) {
+        System.out.println(sortArith());
     }
 }
