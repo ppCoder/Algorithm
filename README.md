@@ -1,2 +1,1 @@
-#Algorithm
-author :dongml
+# Algorithm
