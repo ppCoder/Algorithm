@@ -9,19 +9,19 @@ import java.util.Scanner;
  **/
 public class Main {
     //移动距离最小，即数组有序（正序或者倒序）
+    //可以和任意数字交换，所以只要排好位置，填空
     static int solution(int[] arr){
-        int ma = 0,mb = 0;
-        int[] b = arr.clone();
-        for (int i = 0; i < arr.length-1; i++) {
-            if(arr[i]>arr[i+1]){
-                int r = arr[i];
-                arr[i] = arr[i+1];
-                arr[i+1] = r;
+        int ma = 0,mb = 0,mc=0;
+        int[] a = arr.clone(),b = arr.clone(),c;
+        for (int i = 0; i < a.length-1; i++)
+            if(a[i]>a[i+1]){
+                int r = a[i];
+                a[i] = a[i+1];
+                a[i+1] = r;
                 ma++;
                 i = -1;
             }
-        }
-        for (int i = 0; i < arr.length-1; i++) {
+        for (int i = 0; i < b.length-1; i++)
             if(b[i]<b[i+1]){
                 int r = b[i];
                 b[i] = b[i+1];
@@ -29,17 +29,21 @@ public class Main {
                 mb++;
                 i = -1;
             }
-        }
-        for (int k:arr) {
-            System.out.printf("%d ",k);
-        }
-        System.out.println(ma);
-        for (int k:b) {
-            System.out.printf("%d ",k);
-        }
-        System.out.println(mb);
-        if(ma>mb)return mb;
-        else return ma;
+
+        if(ma>mb) c = b;
+        else c = a;
+        for (int i = 0; i < c.length; i++)
+            if(arr[i]!=c[i])
+                for (int j = i+1; j < c.length; j++)
+                    if(arr[j]==c[i]){
+                        int t = arr[j];
+                        arr[j] = arr[i];
+                        arr[i] = t;
+                        mc++;
+                        break;
+                    }
+
+        return mc;
     }
 
     public static void main(String[] args){
