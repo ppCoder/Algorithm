@@ -1,4 +1,4 @@
-package QQ.B;
+package Sec.B;
 
 import java.util.Scanner;
 
