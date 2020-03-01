@@ -20,7 +20,17 @@ class LNode{
 public class Main {
     public void clean(LNode Head){
         LNode h = Head;
-        while(h.next!=null){ h = h.next;
+        while(h.next!=null){
+            LNode pre = h;
+            h = h.next;
+            if(h.coe==0){
+                pre.next = h.next;
+                h = pre;
+            }
+        }
+        h = Head;
+        while(h.next!=null){
+            h = h.next;
             LNode he = h;
             while(he.next!=null){
                 LNode pre = he;
@@ -116,36 +126,21 @@ public class Main {
         LNode ah = aHead,bh = bHead,ch = cHead;
         clean(ah);
         clean(bh);
+        if(ah.next==null) ch.next = bh.next;
+        if(bh.next==null) ch.next = ah.next;
         while(ah.next!=null){
-            LNode ap = ah;
-            ah =ah.next;
-            bh = bHead;
-            while(bh.next!=null){
-                LNode bp = bh;
-                bh = bh.next;
-                if(ah.index==bh.index||ah.coe==0||bh.coe==0){
-                    LNode p = new LNode();
-                    p.coe = ah.coe*bh.coe;
-                    if(p.coe!=0){
-                        p.index = ah.index;
-                        ch.next = p;
-                        ch = ch.next;
-                    }
-                    ap.next = ah.next;
-                    ah.next = null;
-                    ah = ap;
-                    bp.next = bh.next;
-                    bh.next = null;
-                    bh = bp;
-                }
-            }
+           ah = ah.next;
+           bh = bHead;
+           while(bh.next!=null){
+               bh = bh.next;
+               LNode p = new LNode();
+               p.coe = ah.coe*bh.coe;
+               p.index = ah.index+bh.index;
+               ch.next = p;
+               ch = ch.next;
+           }
         }
-        ah = aHead;bh = bHead;
-        ch.next = ah.next;
-        while(ch.next!=null){
-            ch = ch.next;
-        }
-        ch.next = bh.next;
+        clean(cHead);
         sortIndex(cHead);
         return cHead;
     }
@@ -195,8 +190,7 @@ public class Main {
             if(head.next!=null&&head.next.coe!=0){
                 if(head.next.coe<0) {
                     head.next.coe = -head.next.coe;
-                    if(head.next.index%2!=0)System.out.print("-");
-                    else System.out.print("+");
+                    System.out.print("-");
                 }
                 else System.out.print("+");
             }
