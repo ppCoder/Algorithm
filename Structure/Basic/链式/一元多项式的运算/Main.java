@@ -20,15 +20,7 @@ class LNode{
 public class Main {
     public void clean(LNode Head){
         LNode h = Head;
-        while(h.next!=null){
-            LNode pre = h;
-            h = h.next;
-            if(h.coe==0){
-                pre.next = h.next;
-                h = pre;
-            }
-        }
-        h = Head;
+
         while(h.next!=null){
             h = h.next;
             LNode he = h;
@@ -39,6 +31,15 @@ public class Main {
                     h.coe += he.coe;
                     pre.next = he.next;
                 }
+            }
+        }
+        h = Head;
+        while(h.next!=null){
+            LNode pre = h;
+            h = h.next;
+            if(h.coe==0){
+                pre.next = h.next;
+                h = pre;
             }
         }
     }
